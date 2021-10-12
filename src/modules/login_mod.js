@@ -1,24 +1,48 @@
 // import {requestLogin} from '../Services/user.js'
-import {requestLogin} from '../Services/login_svc.js'
+import {requestLogin, requestCreateUser} from '../Services/login_svc.js'
 import {initiateGetMemos} from "./memos";
 
 //ACTIONS
 const LOGIN_REQUEST = 'memos/user/LOGIN_REQUEST';
 const LOGIN_SUCCESS = 'memos/user/LOGIN_SUCCESS';
-const LOGIN_FAILURE = 'memos/user/LOGIN_FAIL';
-
+const LOGIN_FAILED = 'memos/user/LOGIN_FAILED';
+const CREATE_USER_REQUEST = 'memos/user/CREATE_USER_REQUEST';
+const CREATE_USER_SUCCESS = 'memos/user/CREATE_USER_SUCCESS';
+const CREATE_USER_FAILED = 'memos/user/CREATE_USER_FAILED';
 const LOGOUT = 'memos/user/LOGOUT';
 
 //REDUCER
 const initialState = {
+    createUserPending: false,
+    createUserFailed: false,
     loginPending: false,
     loginFailed: false,
     token: ''
-
 }
 
 export default function reducer(state = initialState, action) {
     switch (action.type) {
+        case CREATE_USER_REQUEST:
+            return {
+                ...state,
+                createUserPending: true
+            }
+
+        case CREATE_USER_SUCCESS:
+            console.log(`create user success`)
+            console.log(action);
+            return {
+                ...state,
+                createUserPending: false,
+                createUserFailed: false,
+            }
+
+        case CREATE_USER_FAILED:
+            return {
+                ...state,
+                createUserPending: false,
+                createUserFailed: true
+            }
         case LOGIN_REQUEST:
             return {
                 ...state,
@@ -35,7 +59,7 @@ export default function reducer(state = initialState, action) {
                 token: action.token
             }
 
-        case LOGIN_FAILURE:
+        case LOGIN_FAILED:
             return {
                 ...state,
                 loginPending: false,
@@ -67,35 +91,64 @@ export function loginSuccess(token) {
 }
 
 export function loginFailure() {
-    return {type: LOGIN_FAILURE}
+    return {type: LOGIN_FAILED}
 }
 
 export function logout() {
     return {type: LOGOUT}
 }
 
+export function createUserRequest() {
+    return {type: CREATE_USER_REQUEST}
+}
+
+export function createUserSuccess() {
+    return {
+        type: CREATE_USER_SUCCESS
+    }
+}
+
+export function createUserFailure() {
+    return {type: CREATE_USER_FAILED}
+}
+
 //SIDE EFFECTS
 export function initiateLogin(credentials) {
-    return function login(dispatch) {
-        dispatch(loginRequest())
-        requestLogin(credentials).then(response => {
-            console.log(response);
-            if (!response.ok) {
+    console.log(`credentials = ${credentials.username} ${credentials.password} ${credentials.newUser}`)
+    if (credentials.newUser === false) {
+        console.log('you reached the new user')
+        return function login(dispatch) {
+            dispatch(loginRequest())
+            requestLogin(credentials).then(response => {
+                if (!response.ok) {
 
-                dispatch(loginFailure())
-                return
-            }
-
-            response.json().then(data => {
-                console.log(data.token);
-                if (!data.token) {
                     dispatch(loginFailure())
                     return
                 }
 
-                dispatch(loginSuccess(data.token))
-                dispatch(initiateGetMemos())
+                response.json().then(data => {
+                    if (!data.token) {
+                        dispatch(loginFailure())
+                        return
+                    }
+
+                    dispatch(loginSuccess(data.token))
+                    dispatch(initiateGetMemos())
+                }, () => dispatch(loginFailure()))
             }, () => dispatch(loginFailure()))
-        }, () => dispatch(loginFailure()))
+        }
+    } else {
+        console.log('you reached the create user')
+        return function createUser(dispatch) {
+            dispatch(createUserRequest())
+            requestCreateUser(credentials).then(response => {
+                if (!response.ok) {
+                    dispatch(createUserFailure())
+                    return
+                }
+
+                dispatch(createUserSuccess())
+            }, () => dispatch(createUserFailure()))
+        }
     }
 }

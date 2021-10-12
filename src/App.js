@@ -15,6 +15,8 @@ function App({
                  dispatch,
                  loginPending,
                  loginFailure,
+                 createUserPending,
+                 createUserFailed,
                  token,
                  getMemosPending,
                  getMemosFailure,
@@ -28,17 +30,6 @@ function App({
     return (
 
         <Container fluid>
-
-            {/*<Row className='bg-primary h-100'>*/}
-            {/*    <Col xs={1}>*/}
-            {/*        <img src={calamanderLogo} alt="logo" fluid className="h-50" />*/}
-            {/*    </Col>*/}
-            {/*    <Col>*/}
-            {/*        <h2>CALAMANDER</h2>*/}
-            {/*    </Col>*/}
-            {/*    <Col xs={9}></Col>*/}
-
-            {/*</Row>*/}
             <Row className='bg-primary h-100 align-items-center justify-content-left mb-2 flex'>
                 <Col>
                     <img src={logo} alt="logo" className='h-75' />
@@ -60,9 +51,11 @@ function App({
                     deleteMemoPending={deleteMemoPending}
                 /> :
                 <Login
-                    handleLoginRequest={(username, password) => dispatch(initiateLogin({username, password}))}
+                    handleLoginRequest={(username, password, newUser) => dispatch(initiateLogin({username, password, newUser}))}
                     loginFailure={loginFailure}
                     loginPending={loginPending}
+                    createUserPending={createUserPending}
+                    createUserFailed={createUserFailed}
                 />
             }
 
