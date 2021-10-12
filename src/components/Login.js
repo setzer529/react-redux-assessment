@@ -8,9 +8,6 @@ function Login({handleLoginRequest, loginPending, loginFailure}) {
     function handleLogin(event) {
         event.preventDefault();
         handleLoginRequest(username, password);
-
-
-
     }
 
     function onUsernameChange(event) {
@@ -21,12 +18,11 @@ function Login({handleLoginRequest, loginPending, loginFailure}) {
         setPassword(event.target.value);
     }
 
-
     return (
 
 
         <Container fluid>
-            <Row className='mt-3'><Col><h2>PLEASE LOGIN!!!</h2></Col></Row>
+            <Row className='mt-3'><Col><h2>PLEASE LOGIN</h2></Col></Row>
             <Row>
                 <Col>
                     <Form onSubmit={handleLogin}>

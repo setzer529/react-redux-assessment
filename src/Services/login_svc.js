@@ -1,4 +1,4 @@
-//todo DELETE THIS FILE
+//todo copied from user.js, needs update
 
 import config from '../config.js'
 

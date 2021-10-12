@@ -44,7 +44,6 @@ function Memos({
     }
 
 
-
     // function handleDelete() {
     //     console.log(event.target.value);
     //     handleDeleteMemo(event.target.value.id, event.target.value.timestamp);
@@ -85,7 +84,7 @@ function Memos({
 
             </Modal>
             <Row>
-                <Col><h1>WELCOME!!!</h1></Col>
+                <Col><h1>WELCOME!</h1></Col>
                 <Col xs='auto'>
                     <Button onClick={handleShow}>New</Button>
                 </Col>
@@ -94,43 +93,28 @@ function Memos({
                 </Col>
             </Row>
             <Row>
-                {
-                    memos || !getMemosPending ? memos.map(memo => {
-                            return (
-                                <Card style={{width: '18rem'}} key={memo.id}>
-                                    <Card.Header>
-                                        <Button onClick={() => handleDeleteMemo(memo)}>DELETE!!!</Button>
-                                    </Card.Header>
-                                    <Card.Body>
-                                        <Card.Subtitle>
-                                            {memo.create_timestamp.slice(0, 16).replace('T', ' ')}
-                                        </Card.Subtitle>
-                                        {memo.content}
-                                    </Card.Body>
-                                    <Card.Footer>
-                                        {memo.tags ? memo.tags.map(tag => {
-                                            return (<Badge className={'m-2'}>{tag}</Badge>)
-                                        }) : console.log('No tags')}
-                                    </Card.Footer>
-                                </Card>)
-                        }) :
-                        <h2>Loading...</h2>
-
+                {memos || !getMemosPending ? memos.map(memo => {
+                        return (
+                            <Card style={{width: '18rem'}} key={memo.id}>
+                                <Card.Header>
+                                    <Button onClick={() => handleDeleteMemo(memo)}>DELETE!!!</Button>
+                                </Card.Header>
+                                <Card.Body>
+                                    <Card.Subtitle>
+                                        {memo.create_timestamp.slice(0, 16).replace('T', ' ')}
+                                    </Card.Subtitle>
+                                    {memo.content}
+                                </Card.Body>
+                                <Card.Footer>
+                                    {memo.tags ? memo.tags.map(tag => {
+                                        return (<Badge className={'m-2'}>{tag}</Badge>)
+                                    }) : console.log('No tags')}
+                                </Card.Footer>
+                            </Card>)
+                    }) :
+                    <h2>Loading...</h2>
                 }
-                {/*<Card style={{width: '18rem'}}>*/}
 
-                {/*    <Card.Body>*/}
-                {/*        <Placeholder as={Card.Title} animation="glow">*/}
-                {/*            <Placeholder xs={6}/>*/}
-                {/*        </Placeholder>*/}
-                {/*        <Placeholder as={Card.Text} animation="glow">*/}
-                {/*            <Placeholder xs={7}/> <Placeholder xs={4}/> <Placeholder xs={4}/>{' '}*/}
-                {/*            <Placeholder xs={6}/> <Placeholder xs={8}/>*/}
-                {/*        </Placeholder>*/}
-
-                {/*    </Card.Body>*/}
-                {/*    <Card.Footer className="text-muted">FOOTER</Card.Footer>*/}
-                {/*</Card>*/}
             </Row>
             <ToastContainer className={"p-3"} position={'bottom-end'}>
                 <Toast bg='danger' onClose={() => setShowError(false)} show={showError} delay={3000} autohide>
@@ -151,3 +135,16 @@ function Memos({
 }
 
 export default Memos;
+//todo
+// <Card style={{width: '18rem'}}>
+//     <Card.Body>
+//         <Placeholder as={Card.Title} animation="glow">
+//             <Placeholder xs={6}/>
+//         </Placeholder>
+//         <Placeholder as={Card.Text} animation="glow">
+//             <Placeholder xs={7}/> <Placeholder xs={4}/> <Placeholder xs={4}/>{' '}
+//             <Placeholder xs={6}/> <Placeholder xs={8}/>
+//         </Placeholder>
+//     </Card.Body>
+//     <Card.Footer className="text-muted">FOOTER</Card.Footer>
+// </Card>

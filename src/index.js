@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './theme.css';
+// import './index.css';
 import App from './App';
 import {createStore, applyMiddleware, combineReducers} from 'redux';
-import user from './modules/user';
+// import user from './modules/user';
+import user from './modules/login_mod.js';
 import memos from './modules/memos';
 import {Provider} from 'react-redux';
 import logger from 'redux-logger';

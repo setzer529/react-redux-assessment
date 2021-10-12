@@ -1,10 +1,14 @@
-import {Container} from 'react-bootstrap';
+import logo from './calamander_logo.png'
+import {Container, Row, Col} from 'react-bootstrap';
 import Login from './components/Login.js';
 import Memos from './components/Memos.js'
 // import {createMemo, deleteMemo} from './Services/memos.js';
 import {connect} from 'react-redux';
-import {initiateLogin, logout} from './modules/user.js'
+// import {initiateLogin, logout} from './modules/user.js'
+import {initiateLogin, logout} from './modules/login_mod.js'
 import {initiateCreateMemo, initiateDeleteMemo} from './modules/memos.js'
+
+// var calamanderLogo = require('./calamander_logo.png')
 
 
 function App({
@@ -21,37 +25,27 @@ function App({
                  deleteMemoPending
              }) {
 
-
-    // function handleError(error) {
-    //     console.log('Ya Dun Goofed');
-    // }
-    //
-    // function handleRequestMemos() {
-    //     dispatch(initiateGetMemos())
-    // }
-
-    // function handleLoginRequest(username, password) {
-    //     dispatch(initiateLogin({username, password}))
-    // }
-
-
-    // function handleLogoutRequest() {
-    //     dispatch(logout())
-    // }
-    //
-    // function handleCreateMemo(memo) {
-    //     dispatch(initiateCreateMemo(memo))
-    // }
-    //
-    // function handleDeleteMemo(memo) {
-    //     dispatch(initiateDeleteMemo(memo))
-    // deleteMemo(token, memo).then(data => data.json(), handleError).then(data => {
-    //     handleRequestMemos();
-    // }).catch(handleError)
-    // }
-
     return (
-        <Container>
+
+        <Container fluid>
+
+            {/*<Row className='bg-primary h-100'>*/}
+            {/*    <Col xs={1}>*/}
+            {/*        <img src={calamanderLogo} alt="logo" fluid className="h-50" />*/}
+            {/*    </Col>*/}
+            {/*    <Col>*/}
+            {/*        <h2>CALAMANDER</h2>*/}
+            {/*    </Col>*/}
+            {/*    <Col xs={9}></Col>*/}
+
+            {/*</Row>*/}
+            <Row className='bg-primary h-100 align-items-center justify-content-left mb-2 flex'>
+                <Col>
+                    <img src={logo} alt="logo" className='h-75' />
+                </Col>
+                <Col className="d-flex align-text-middle justify-content-left display-2 text-secondary">CALAMANDER</Col>
+                <Col></Col>
+            </Row>
             {token ?
                 <Memos
                     handleLogoutRequest={() => dispatch(logout())}

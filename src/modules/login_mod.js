@@ -1,6 +1,5 @@
-//todo DELETE THIS FILE
-
-import {requestLogin} from '../Services/user.js'
+// import {requestLogin} from '../Services/user.js'
+import {requestLogin} from '../Services/login_svc.js'
 import {initiateGetMemos} from "./memos";
 
 //ACTIONS

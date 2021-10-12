@@ -1,8 +1,8 @@
-const base_url = 'http://localhost:3001/api'
+import config from '../config.js'
 
 export function requestMemos(token) {
     console.log(`requestMemos token = ${token}`)
-    return fetch(base_url + '/memo', {
+    return fetch(`${config.baseURL}/memo`, {
         method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + token,
@@ -14,7 +14,7 @@ export function requestMemos(token) {
 export function createMemo(token, memo) {
     console.log(token);
     console.log(memo);
-    return fetch(base_url + '/memo', {
+    return fetch(`${config.baseURL}/memo`, {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + token,
@@ -26,7 +26,7 @@ export function createMemo(token, memo) {
 
 export function deleteMemo(token, memo) {
 
-    return fetch(base_url + '/memo/' + memo.id, {
+    return fetch(`${config.baseURL}/memo/${memo.id}`, {
         method: 'DELETE',
         headers: {
             'Authorization': 'Bearer ' + token,
