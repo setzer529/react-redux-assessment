@@ -2,8 +2,8 @@ import {Container, Row, Col, Form, Button, Alert} from 'react-bootstrap';
 import {useEffect, useState} from 'react';
 
 function Login({handleLoginRequest, loginPending, loginFailure, createUserPending, createUserFailed}) {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const [username, setUsername] = useState('imalcolm')
+    const [password, setPassword] = useState('shirtlesschaos')
     const [newUser, setNewUser] = useState(false)
 
     function handleLogin(event) {
@@ -24,7 +24,6 @@ function Login({handleLoginRequest, loginPending, loginFailure, createUserPendin
     }
 
     useEffect(() => {
-        console.log(createUserPending);
         if (createUserPending === false) {
             setNewUser(false)
         }

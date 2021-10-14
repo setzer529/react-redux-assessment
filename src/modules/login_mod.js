@@ -1,6 +1,9 @@
+//todo DELETE
 // import {requestLogin} from '../Services/user.js'
+// import {initiateGetMemos} from "./memos";
 import {requestLogin, requestCreateUser} from '../Services/login_svc.js'
-import {initiateGetMemos} from "./memos";
+import {initiateGetEvents} from './events_mod.js';
+
 
 //ACTIONS
 const LOGIN_REQUEST = 'memos/user/LOGIN_REQUEST';
@@ -29,8 +32,6 @@ export default function reducer(state = initialState, action) {
             }
 
         case CREATE_USER_SUCCESS:
-            console.log(`create user success`)
-            console.log(action);
             return {
                 ...state,
                 createUserPending: false,
@@ -50,8 +51,6 @@ export default function reducer(state = initialState, action) {
             }
 
         case LOGIN_SUCCESS:
-            console.log(`login success`)
-            console.log(action);
             return {
                 ...state,
                 loginPending: false,
@@ -114,9 +113,7 @@ export function createUserFailure() {
 
 //SIDE EFFECTS
 export function initiateLogin(credentials) {
-    console.log(`credentials = ${credentials.username} ${credentials.password} ${credentials.newUser}`)
     if (credentials.newUser === false) {
-        console.log('you reached the new user')
         return function login(dispatch) {
             dispatch(loginRequest())
             requestLogin(credentials).then(response => {
@@ -133,12 +130,12 @@ export function initiateLogin(credentials) {
                     }
 
                     dispatch(loginSuccess(data.token))
-                    dispatch(initiateGetMemos())
+                    dispatch(initiateGetEvents())
+
                 }, () => dispatch(loginFailure()))
             }, () => dispatch(loginFailure()))
         }
     } else {
-        console.log('you reached the create user')
         return function createUser(dispatch) {
             dispatch(createUserRequest())
             requestCreateUser(credentials).then(response => {
@@ -148,6 +145,7 @@ export function initiateLogin(credentials) {
                 }
 
                 dispatch(createUserSuccess())
+
             }, () => dispatch(createUserFailure()))
         }
     }
