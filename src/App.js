@@ -1,16 +1,18 @@
 import logo from './calamander_logo.png'
 import {Container, Row, Col} from 'react-bootstrap';
 import Login from './components/Login.js';
-// import Memos from './components/Memos.js';
 import Events from './components/Events.js';
-// import {createMemo, deleteMemo} from './Services/memos.js';
+import Reminders from './components/Reminders.js';
 import {connect} from 'react-redux';
-// import {initiateLogin, logout} from './modules/user.js'
-import {initiateLogin, logout} from './modules/login_mod.js'
-// import {initiateCreateMemo, initiateDeleteMemo} from './modules/memos.js'
-import {initiateCreateEvent, initiateUpdateEvent, initiateDeleteEvent, initiateGetEvent, initiateGetEvents} from './modules/events_mod.js'
-
-// var calamanderLogo = require('./calamander_logo.png')
+import {
+    initiateLogin, logout
+} from './modules/login_mod.js';
+import {
+    initiateCreateEvent, initiateUpdateEvent, initiateDeleteEvent, initiateGetEvent, initiateGetEvents
+} from './modules/events_mod.js';
+import {
+    initiateCreateReminder, initiateUpdateReminder, initiateDeleteReminder, initiateGetReminder, initiateGetReminders
+} from './modules/reminders_mod.js';
 
 
 function App({
@@ -18,32 +20,14 @@ function App({
                  loginPending, loginFailure,
                  createUserPending, createUserFailed, token,
                  event, events,
+                 reminder, reminders,
                  getEventsPending, getEventsFailure,
                  createEventPending, createEventFailure,
-                 deleteEventPending, deleteEventFailure
+                 deleteEventPending, deleteEventFailure,
+                 getRemindersPending, getRemindersFailure,
+                 createReminderPending, createReminderFailure,
+                 deleteReminderPending, deleteReminderFailure
              }) {
-
-    // const  = props
-
-    //todo remove memos components:
-    // getMemosPending, getMemosFailure, memos,
-    //     createMemoPending, createMemoFailure,
-    //     deleteMemoFailure, deleteMemoPending,
-
-    // <Memos
-    // handleLogoutRequest={() => dispatch(logout())}
-    // handleCreateMemo={memo => dispatch(initiateCreateMemo(memo))}
-    // handleDeleteMemo={memo => dispatch(initiateDeleteMemo(memo))}
-    // memos={memos}
-    // getMemosPending={getMemosPending}
-    // getMemosFailure={getMemosFailure}
-    // createMemoPending={createMemoPending}
-    // createMemoFailure={createMemoFailure}
-    // deleteMemoFailure={deleteMemoFailure}
-    // deleteMemoPending={deleteMemoPending}
-    // />
-
-    // console.log(props)
 
     return (
         <Container fluid>
@@ -73,6 +57,22 @@ function App({
                         deleteEventFailure={deleteEventFailure}
 
                     />
+                    <Reminders
+                        reminder={reminder}
+                        reminders={reminders}
+                        handleLogoutRequest={() => dispatch(logout())}
+                        handleCreateReminder={reminder => dispatch(initiateCreateReminder(reminder))}
+                        handleUpdateReminder={reminder => dispatch(initiateUpdateReminder(reminder))}
+                        handleDeleteReminder={reminder => dispatch(initiateDeleteReminder(reminder))}
+                        handleGetReminder={reminder => dispatch(initiateGetReminder(reminder))}
+                        handleGetReminders={reminder => dispatch(initiateGetReminders(reminder.remindersRange))}
+                        getRemindersPending={getRemindersPending}
+                        getRemindersFailure={getRemindersFailure}
+                        createReminderPending={createReminderPending}
+                        createReminderFailure={createReminderFailure}
+                        deleteReminderPending={deleteReminderPending}
+                        deleteReminderFailure={deleteReminderFailure}
+                    />
                 </> :
                 <Login
                     handleLoginRequest={(username, password, newUser) => dispatch(initiateLogin({
@@ -92,7 +92,7 @@ function App({
 }
 
 function mapStateToProps(state) {
-    return {...state.user, ...state.events}
+    return {...state.user, ...state.events, ...state.reminders}
 }
 
 export default connect(mapStateToProps)(App);

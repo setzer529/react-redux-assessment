@@ -22,9 +22,6 @@ const GET_EVENTS_REQUEST = 'events/EVENTS/GET_EVENTS_REQUEST';
 const GET_EVENTS_SUCCESS = 'events/EVENTS/GET_EVENTS_SUCCESS';
 const GET_EVENTS_FAILURE = 'events/EVENTS/GET_EVENTS_FAILURE';
 
-//todo totes sus VVV
-// const LOGOUT = 'calendar/user/LOGOUT';
-
 //REDUCER
 const initialState = {
     getEventPending: false,
@@ -113,7 +110,6 @@ export default function reducer(state = initialState, action) {
                 deleteEventFailure: false,
             }
         case DELETE_EVENT_FAILURE:
-            console.log('delete event failure')
             return {
                 ...state,
                 deleteEventPending: false,

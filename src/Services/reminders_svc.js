@@ -1,7 +1,7 @@
 import config from '../config.js'
 
-export function requestEvent(token, event) {
-    return fetch(`${config.baseURL}/event/${event.id}`, {
+export function requestReminder(token, event) {
+    return fetch(`${config.baseURL}/reminder/${event.id}`, {
         method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + token,
@@ -10,9 +10,8 @@ export function requestEvent(token, event) {
     })
 }
 
-export function createEvent(token, event) {
-
-    return fetch(`${config.baseURL}/event`, {
+export function createReminder(token, event) {
+    return fetch(`${config.baseURL}/reminder`, {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + token,
@@ -22,8 +21,9 @@ export function createEvent(token, event) {
     })
 }
 
-export function updateEvent(token, event) {
-    return fetch(`${config.baseURL}/event/${event.id}`, {
+export function updateReminder(token, event) {
+    console.log(event)
+    return fetch(`${config.baseURL}/reminder`, {
         method: 'PUT',
         headers: {
             'Authorization': 'Bearer ' + token,
@@ -33,8 +33,8 @@ export function updateEvent(token, event) {
     })
 }
 
-export function deleteEvent(token, event) {
-    return fetch(`${config.baseURL}/event`, {
+export function deleteReminder(token, event) {
+    return fetch(`${config.baseURL}/reminder`, {
         method: 'DELETE',
         headers: {
             'Authorization': 'Bearer ' + token,
@@ -46,8 +46,8 @@ export function deleteEvent(token, event) {
     })
 }
 
-export function requestEvents(token, event) {
-    return fetch(`${config.baseURL}/event/dates`, {
+export function requestReminders(token, event) {
+    return fetch(`${config.baseURL}/reminder/dates`, {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + token,
