@@ -1,5 +1,3 @@
-//todo copied from user.js, needs update
-
 import config from '../config.js'
 
 export function requestLogin(credentials) {

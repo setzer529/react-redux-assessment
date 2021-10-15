@@ -1,11 +1,11 @@
 import logo from './calamander_logo.png'
 import {Container, Row, Col} from 'react-bootstrap';
+import {connect} from 'react-redux';
 import Login from './components/Login.js';
 import Events from './components/Events.js';
 import Reminders from './components/Reminders.js';
 import Tasks from './components/Tasks.js';
 import Invites from './components/Invites.js';
-import {connect} from 'react-redux';
 import {
     initiateLogin, logout
 } from './modules/login_mod.js';
@@ -83,8 +83,6 @@ function App({
                         getEventFailure={getEventFailure}
                         updateEventPending={updateEventPending}
                         updateEventFailure={updateEventFailure}
-
-
                     />
                     <Reminders
                         reminder={reminder}
