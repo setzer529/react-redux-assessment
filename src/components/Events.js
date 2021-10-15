@@ -24,7 +24,12 @@ function Events({
                     getEventsFailure,
                     createEventPending,
                     createEventFailure,
-                    deleteEventFailure
+                    deleteEventFailure,
+                    getEventPending,
+                    getEventFailure,
+                    updateEventPending,
+                    updateEventFailure
+
                 }) {
     const [showCreate, setShowCreate] = useState(false);
     const [showDetail, setShowDetail] = useState(false);
@@ -42,9 +47,11 @@ function Events({
     const [eventEndDate, setEventEndDate] = useState('');
     const [eventAttendees, setEventAttendees] = useState([]);
     const [eventLink, setEventLink] = useState('');
-    const [showError, setShowError] = useState(false);
+    const [showGetEventsError, setShowGetEventsError] = useState(false);
     const [showCreateEventError, setShowCreateEventError] = useState(false);
     const [showDeleteEventError, setShowDeleteEventError] = useState(false);
+    const [showGetEventError, setShowGetEventError] = useState(false);
+    const [showUpdateEventError, setShowUpdateEventError] = useState(false);
     const [eventsRange, setEventsRange] = useState(defaultDate());
     const [eventUpdate, setEventUpdate] = useState(false);
 
@@ -102,7 +109,7 @@ function Events({
 
     useEffect(() => {
         if (getEventsFailure) {
-            setShowError(true)
+            setShowGetEventsError(true)
         }
         if (createEventFailure) {
             setShowCreateEventError(true)
@@ -110,8 +117,15 @@ function Events({
         if (deleteEventFailure) {
             setShowDeleteEventError(true)
         }
+        if (getEventFailure) {
+            setShowGetEventError(true)
+        }
+        if (updateEventFailure) {
+            setShowUpdateEventError(true)
+        }
 
-    }, [getEventsFailure, createEventFailure, deleteEventFailure])
+
+    }, [getEventsFailure, createEventFailure, deleteEventFailure, getEventFailure, updateEventFailure])
 
     useEffect(() => {
         // console.log(`locale string: ${event.start_timestamp ? event.start_timestamp.toLocaleString(): event.start_timestamp}`)
@@ -121,48 +135,37 @@ function Events({
         setEventLocation(event.location);
         setEventLink(event.meeting_link);
         setEventAttendees(event.attendee_list ? event.attendee_list : []);
-        // setEventStartTime(event.start_timestamp);
         setEventStartDate(event.start_timestamp ? event.start_timestamp.toLocaleString() : event.start_timestamp);
-        // setEventEndTime(event.end_timestamp);
         setEventEndDate(event.end_timestamp ? event.end_timestamp.toLocaleString() : event.end_timestamp);
     }, [event])
 
     function handleTitleChange(event) {
         setEventTitle(event.target.value)
     }
-
     function handleDescriptionChange(event) {
         setEventDescription(event.target.value)
     }
-
     function handleLocationChange(event) {
         setEventLocation(event.target.value)
     }
-
     function handleLinkChange(event) {
         setEventLink(event.target.value)
     }
-
     function handleAttendeesChange(event) {
         setEventAttendees(event.target.value);
     }
-
     function handleStartDateChange(event) {
         setEventStartDate(event.target.value)
     }
-
     function handleEndDateChange(event) {
         setEventEndDate(event.target.value)
     }
-
     function handleStartChange(event) {
         setEventsRange({...eventsRange, range_start: new Date(event.target.value)});
     }
-
     function handleEndChange(event) {
         setEventsRange({...eventsRange, range_end: new Date(event.target.value)});
     }
-
     function handleFilter(event) {
         event.preventDefault();
         handleGetEvents({eventsRange})
@@ -353,8 +356,9 @@ function Events({
                     <h2>Loading...</h2>
                 }
             </Row>
+            {/*//ERROR ALERTS*/}
             <ToastContainer className={"p-3"} position={'bottom-end'}>
-                <Toast bg='danger' onClose={() => setShowError(false)} show={showError} delay={3000} autohide>
+                <Toast bg='danger' onClose={() => setShowGetEventsError(false)} show={showGetEventsError} delay={3000} autohide>
                     <Toast.Body bg='danger'><b>Unable to Retrieve Events</b></Toast.Body>
                 </Toast>
                 <Toast bg='danger' onClose={() => setShowCreateEventError(false)} show={showCreateEventError}
@@ -366,6 +370,12 @@ function Events({
                        delay={3000}
                        autohide>
                     <Toast.Body bg='danger'><b>Unable to Delete Event</b></Toast.Body>
+                </Toast>
+                <Toast bg='danger' onClose={() => setShowGetEventError(false)} show={showGetEventError} delay={3000} autohide>
+                    <Toast.Body bg='danger'><b>Unable to Retrieve Event</b></Toast.Body>
+                </Toast>
+                <Toast bg='danger' onClose={() => setShowUpdateEventError(false)} show={showUpdateEventError} delay={3000} autohide>
+                    <Toast.Body bg='danger'><b>Unable to Update Event</b></Toast.Body>
                 </Toast>
             </ToastContainer>
 

@@ -11,135 +11,131 @@ import {
 } from 'react-bootstrap';
 import {useState, useEffect} from 'react'
 
-function Tasks({
-                   task,
-                   tasks,
-                   handleLogoutRequest,
-                   handleCreateTask,
-                   handleUpdateTask,
-                   handleDeleteTask,
-                   handleGetTask,
-                   handleGetTasks,
-                   getTasksPending,
-                   getTasksFailure,
-                   createTaskPending,
-                   createTaskFailure,
-                   deleteTaskFailure,
-                   getTaskPending,
-                   getTaskFailure,
-                   updateTaskPending,
-                   updateTaskFailure
-               }) {
+function Invites({
+                     invite,
+                     invites,
+                     handleLogoutRequest,
+                     handleCreateInvite,
+                     handleUpdateInvite,
+                     handleDeleteInvite,
+                     handleGetInvite,
+                     handleGetInvites,
+                     getInvitesPending,
+                     getInvitesFailure,
+                     createInvitePending,
+                     createInviteFailure,
+                     deleteInviteFailure,
+                     getInvitePending,
+                     getInviteFailure,
+                     updateInvitePending,
+                     updateInviteFailure
+                 }) {
     const [showCreate, setShowCreate] = useState(false);
     const [showDetail, setShowDetail] = useState(false);
     const handleCloseCreate = () => setShowCreate(false);
     const handleShowCreate = () => setShowCreate(true);
     const handleCloseDetail = () => setShowDetail(false);
     const handleShowDetail = () => setShowDetail(true);
-    const [taskID, setTaskID] = useState('')
-    const [taskTitle, setTaskTitle] = useState('');
-    const [taskEventID, setTaskEventID] = useState('');
-    const [taskLocation, setTaskLocation] = useState('');
-    const [taskStartTime, setTaskStartTime] = useState('');
-    const [taskStartDate, setTaskStartDate] = useState('');
-    const [taskEndTime, setTaskEndTime] = useState('');
-    const [taskEndDate, setTaskEndDate] = useState('');
-    const [taskSteps, setTaskSteps] = useState([]);
-    const [taskLink, setTaskLink] = useState('');
-    const [showGetTasksError, setShowGetTasksError] = useState(false);
-    const [showCreateTaskError, setShowCreateTaskError] = useState(false);
-    const [showDeleteTaskError, setShowDeleteTaskError] = useState(false);
-    const [showGetTaskError, setShowGetTaskError] = useState(false);
-    const [showUpdateTaskError, setShowUpdateTaskError] = useState(false);
-    const [tasksRange, setTasksRange] = useState(defaultDate());
-    const [taskUpdate, setTaskUpdate] = useState(false);
+    const [inviteID, setInviteID] = useState('')
+    const [inviteTitle, setInviteTitle] = useState('');
+    const [inviteEventID, setInviteEventID] = useState('');
+    const [inviteAccepted, setInviteAccepted] = useState(false);
+    const [inviteStartTime, setInviteStartTime] = useState('');
+    const [inviteStartDate, setInviteStartDate] = useState('');
+    const [inviteEndTime, setInviteEndTime] = useState('');
+    const [inviteEndDate, setInviteEndDate] = useState('');
+    const [inviteSteps, setInviteSteps] = useState([]);
+    const [inviteLink, setInviteLink] = useState('');
+    const [showGetInvitesError, setShowGetInvitesError] = useState(false);
+    const [showCreateInviteError, setShowCreateInviteError] = useState(false);
+    const [showDeleteInviteError, setShowDeleteInviteError] = useState(false);
+    const [showGetInviteError, setShowGetInviteError] = useState(false);
+    const [showUpdateInviteError, setShowUpdateInviteError] = useState(false);
+    const [invitesRange, setInvitesRange] = useState(defaultDate());
+    const [inviteUpdate, setInviteUpdate] = useState(false);
 
-    function handleTaskSubmit(event) {
+    function handleInviteSubmit(event) {
         event.preventDefault()
-        let steps = taskSteps[0] ? taskSteps.split(',') : []
         const request = {
-            title: taskTitle,
-            timestamp: taskStartDate,
-            step_list: steps
+            accepted: inviteAccepted,
         }
-        if (taskUpdate) {
-            request.id = taskID
-        }
+        inviteUpdate ? request.id = inviteID : request.event_id = inviteEventID
+
         console.log(request)
-        taskUpdate ? handleUpdateTask(request) : handleCreateTask(request);
-        taskUpdate ? handleCloseDetail() : handleCloseCreate();
+        inviteUpdate ? handleUpdateInvite(request) : handleCreateInvite(request);
+        inviteUpdate ? handleCloseDetail() : handleCloseCreate();
     }
 
-    function handleTaskUpdate(update) {
+    function handleInviteUpdate(update) {
         update.preventDefault()
 
     }
 
-    function handleTaskCreate(input) {
-        setTaskUpdate(false);
-        setTaskID('');
-        setTaskTitle('');
-        setTaskEventID('');
-        setTaskStartDate('');
+    function handleInviteCreate(input) {
+        setInviteUpdate(false);
+        setInviteID('');
+        setInviteTitle('');
+        setInviteEventID('');
+        setInviteStartDate('');
         handleShowCreate();
     }
 
-    async function handleTaskDetail(input) {
-        setTaskUpdate(true);
-        console.log(taskUpdate);
-        await handleGetTask(input);
+    async function handleInviteDetail(input) {
+        setInviteUpdate(true);
+        console.log(inviteUpdate);
+        await handleGetInvite(input);
         handleShowDetail();
     }
 
     useEffect(() => {
-        if (getTasksFailure) {
-            setShowGetTasksError(true)
+        if (getInvitesFailure) {
+            setShowGetInvitesError(true)
         }
-        if (createTaskFailure) {
-            setShowCreateTaskError(true)
+        if (createInviteFailure) {
+            setShowCreateInviteError(true)
         }
-        if (deleteTaskFailure) {
-            setShowDeleteTaskError(true)
+        if (deleteInviteFailure) {
+            setShowDeleteInviteError(true)
         }
-        if (getTaskFailure) {
-            setShowGetTaskError(true)
+        if (getInviteFailure) {
+            setShowGetInviteError(true)
         }
-        if (updateTaskFailure) {
-            setShowUpdateTaskError(true)
+        if (updateInviteFailure) {
+            setShowUpdateInviteError(true)
         }
 
-    }, [getTasksFailure, createTaskFailure, deleteTaskFailure, getTaskFailure, updateTaskFailure])
+    }, [getInvitesFailure, createInviteFailure, deleteInviteFailure, getInviteFailure, updateInviteFailure])
 
     useEffect(() => {
-        setTaskID(task.id);
-        setTaskEventID(task.event_id);
-        setTaskTitle(task.title);
-        setTaskStartDate(task.timestamp ? task.timestamp.toLocaleString() : task.timestamp);
-    }, [task])
+        setInviteID(invite.id);
+        setInviteEventID(invite.event_id);
+        setInviteTitle(invite.title);
+        setInviteStartDate(invite.timestamp ? invite.timestamp.toLocaleString() : invite.timestamp);
+    }, [invite])
 
     function handleTitleChange(event) {
-        setTaskTitle(event.target.value)
+        setInviteTitle(event.target.value)
     }
 
     function handleStartDateChange(event) {
-        setTaskStartDate(event.target.value)
+        setInviteStartDate(event.target.value)
     }
 
     function handleStepsChange(event) {
-        setTaskSteps(event.target.value);
+        setInviteSteps(event.target.value);
     }
 
     function handleStartChange(event) {
-        setTasksRange({...tasksRange, range_start: new Date(event.target.value)});
+        setInvitesRange({...invitesRange, range_start: new Date(event.target.value)});
     }
 
     function handleEndChange(event) {
-        setTasksRange({...tasksRange, range_end: new Date(event.target.value)});
+        setInvitesRange({...invitesRange, range_end: new Date(event.target.value)});
     }
 
     function handleFilter(event) {
         event.preventDefault();
-        handleGetTasks({tasksRange})
+        handleGetInvites({invitesRange})
         ;
     }
 
@@ -157,15 +153,15 @@ function Tasks({
 
     return (
         <>
-            {/*CREATE TASK MODAL*/}
+            {/*CREATE INVITE MODAL*/}
             <Modal show={showCreate} onHide={handleCloseCreate}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Create Task</Modal.Title>
+                    <Modal.Title>Create Invite</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={handleTaskSubmit}>
+                    <Form onSubmit={handleInviteSubmit}>
                         <Form.Group className="mb-2" controlId="createTitle">
-                            <Form.Label>Task Title:</Form.Label>
+                            <Form.Label>Invite Title:</Form.Label>
                             <Form.Control type="text" placeholder="Title" onChange={handleTitleChange}/>
                         </Form.Group>
                         <Form.Group className="mb-2" controlId="createStart">
@@ -185,20 +181,20 @@ function Tasks({
                     </Form>
                 </Modal.Body>
             </Modal>
-            {/*DETAIL & EDIT TASK MODAL*/}
+            {/*DETAIL & EDIT INVITE MODAL*/}
             <Modal show={showDetail} onHide={handleCloseDetail}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit Task</Modal.Title>
+                    <Modal.Title>Edit Invite</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={handleTaskSubmit}>
+                    <Form onSubmit={handleInviteSubmit}>
                         <Form.Group className="mb-2" controlId="createTitle">
-                            <Form.Label>Task Title:</Form.Label>
-                            <Form.Control type="text" placeholder="Title" defaultValue={taskTitle}
+                            <Form.Label>Invite Title:</Form.Label>
+                            <Form.Control type="text" placeholder="Title" defaultValue={inviteTitle}
                                           onChange={handleTitleChange}/>
                         </Form.Group>
                         <Form.Group className="mb-2" controlId="createStart">
-                            <Form.Label>Start Time: {taskStartDate}</Form.Label>
+                            <Form.Label>Start Time: {inviteStartDate}</Form.Label>
                             <Form.Control type="datetime-local" onChange={handleStartDateChange}/>
                         </Form.Group>
                         <Form.Group className="mb-2" controlId="createAttendees">
@@ -209,16 +205,16 @@ function Tasks({
                                 onChange={handleStepsChange}/>
                         </Form.Group>
                         <Button variant="primary" type="submit">
-                            Update Task
+                            Update Invite
                         </Button>
                     </Form>
                 </Modal.Body>
             </Modal>
-            {/*YOUR TASKS*/}
+            {/*YOUR INVITES*/}
             <Row className='bg-danger'>
-                <Col><h1>TASKS</h1></Col>
+                <Col><h1>INVITES</h1></Col>
                 <Col xs='auto'>
-                    <Button onClick={() => handleTaskCreate()}>Create Task</Button>
+                    <Button onClick={() => handleInviteCreate()}>Create Invite</Button>
                 </Col>
                 <Col xs='auto'>
                     <Button variant='outline-primary' onClick={handleLogoutRequest}>Logout</Button>
@@ -246,21 +242,21 @@ function Tasks({
                     </Col>
                 </Form>
             </Row>
-            {/*//TASKS*/}
+            {/*//INVITES*/}
             <Row>
-                {tasks ? tasks.map(task => {
+                {invites ? invites.map(invite => {
                         return (
-                            <Col xs={4} key={task.id}>
+                            <Col xs={4} key={invite.id}>
                                 <Card className={"my-3"}>
                                     <Card.Header>
-                                        <Button className={"m-2"} onClick={() => handleTaskDetail(task)}>Edit</Button>
-                                        <Button className={"m-2"} onClick={() => handleDeleteTask(task)}>Delete</Button>
+                                        <Button className={"m-2"} onClick={() => handleInviteDetail(invite)}>Edit</Button>
+                                        <Button className={"m-2"} onClick={() => handleDeleteInvite(invite)}>Delete</Button>
                                     </Card.Header>
                                     <Card.Body>
-                                        <h4>{task.title}</h4>
+                                        <h4>{invite.title}</h4>
                                         <Card.Subtitle>
-                                            <div>Time: {task.timestamp ?
-                                                task.timestamp.slice(0, 16).replace('T', ' ') :
+                                            <div>Time: {invite.timestamp ?
+                                                invite.timestamp.slice(0, 16).replace('T', ' ') :
                                                 'not set'}
                                             </div>
                                         </Card.Subtitle>
@@ -274,31 +270,31 @@ function Tasks({
                 }
             </Row>
             <ToastContainer className={"p-3"} position={'bottom-end'}>
-                <Toast bg='danger' onClose={() => setShowGetTasksError(false)} show={showGetTasksError} delay={3000} autohide>
-                    <Toast.Body bg='danger'><b>Unable to Retrieve Tasks</b></Toast.Body>
+                <Toast bg='danger' onClose={() => setShowGetInvitesError(false)} show={showGetInvitesError} delay={3000} autohide>
+                    <Toast.Body bg='danger'><b>Unable to Retrieve Invites</b></Toast.Body>
                 </Toast>
-                <Toast bg='danger' onClose={() => setShowCreateTaskError(false)} show={showCreateTaskError}
+                <Toast bg='danger' onClose={() => setShowCreateInviteError(false)} show={showCreateInviteError}
                        delay={3000}
                        autohide>
-                    <Toast.Body bg='danger'><b>Unable to Create Task</b></Toast.Body>
+                    <Toast.Body bg='danger'><b>Unable to Create Invite</b></Toast.Body>
                 </Toast>
-                <Toast bg='danger' onClose={() => setShowDeleteTaskError(false)} show={showDeleteTaskError}
+                <Toast bg='danger' onClose={() => setShowDeleteInviteError(false)} show={showDeleteInviteError}
                        delay={3000}
                        autohide>
-                    <Toast.Body bg='danger'><b>Unable to Delete Task</b></Toast.Body>
+                    <Toast.Body bg='danger'><b>Unable to Delete Invite</b></Toast.Body>
                 </Toast>
-                <Toast bg='danger' onClose={() => setShowGetTaskError(false)} show={showGetTaskError} delay={3000} autohide>
-                    <Toast.Body bg='danger'><b>Unable to Retrieve Task</b></Toast.Body>
+                <Toast bg='danger' onClose={() => setShowGetInviteError(false)} show={showGetInviteError} delay={3000} autohide>
+                    <Toast.Body bg='danger'><b>Unable to Retrieve Invite</b></Toast.Body>
                 </Toast>
-                <Toast bg='danger' onClose={() => setShowUpdateTaskError(false)} show={showUpdateTaskError} delay={3000} autohide>
-                    <Toast.Body bg='danger'><b>Unable to Update Task</b></Toast.Body>
+                <Toast bg='danger' onClose={() => setShowUpdateInviteError(false)} show={showUpdateInviteError} delay={3000} autohide>
+                    <Toast.Body bg='danger'><b>Unable to Update Invite</b></Toast.Body>
                 </Toast>
             </ToastContainer>
         </>
     );
 }
 
-export default Tasks;
+export default Invites;
 //todo
 // <Card style={{width: '18rem'}}>
 //     <Card.Body>

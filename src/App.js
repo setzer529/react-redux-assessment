@@ -4,6 +4,7 @@ import Login from './components/Login.js';
 import Events from './components/Events.js';
 import Reminders from './components/Reminders.js';
 import Tasks from './components/Tasks.js';
+import Invites from './components/Invites.js';
 import {connect} from 'react-redux';
 import {
     initiateLogin, logout
@@ -17,6 +18,9 @@ import {
 import {
     initiateCreateTask, initiateUpdateTask, initiateDeleteTask, initiateGetTask, initiateGetTasks
 } from './modules/tasks_mod.js';
+import {
+    initiateCreateInvite, initiateUpdateInvite, initiateDeleteInvite, initiateGetInvite, initiateGetInvites
+} from './modules/invites_mod.js';
 
 
 function App({
@@ -26,15 +30,27 @@ function App({
                  event, events,
                  reminder, reminders,
                  task, tasks,
+                 invite, invites,
                  getEventsPending, getEventsFailure,
                  createEventPending, createEventFailure,
                  deleteEventPending, deleteEventFailure,
+                 getEventPending, getEventFailure,
+                 updateEventPending, updateEventFailure,
                  getRemindersPending, getRemindersFailure,
                  createReminderPending, createReminderFailure,
                  deleteReminderPending, deleteReminderFailure,
+                 getReminderPending, getReminderFailure,
+                 updateReminderPending, updateReminderFailure,
                  getTasksPending, getTasksFailure,
                  createTaskPending, createTaskFailure,
-                 deleteTaskPending, deleteTaskFailure
+                 deleteTaskPending, deleteTaskFailure,
+                 getTaskPending, getTaskFailure,
+                 updateTaskPending, updateTaskFailure,
+                 getInvitesPending, getInvitesFailure,
+                 createInvitePending, createInviteFailure,
+                 deleteInvitePending, deleteInviteFailure,
+                 getInvitePending, getInviteFailure,
+                 updateInvitePending, updateInviteFailure
              }) {
 
     return (
@@ -63,6 +79,11 @@ function App({
                         createEventFailure={createEventFailure}
                         deleteEventPending={deleteEventPending}
                         deleteEventFailure={deleteEventFailure}
+                        getEventPending={getEventPending}
+                        getEventFailure={getEventFailure}
+                        updateEventPending={updateEventPending}
+                        updateEventFailure={updateEventFailure}
+
 
                     />
                     <Reminders
@@ -80,6 +101,10 @@ function App({
                         createReminderFailure={createReminderFailure}
                         deleteReminderPending={deleteReminderPending}
                         deleteReminderFailure={deleteReminderFailure}
+                        getReminderPending={getReminderPending}
+                        getReminderFailure={getReminderFailure}
+                        updateReminderPending={updateReminderPending}
+                        updateReminderFailure={updateReminderFailure}
                     />
                     <Tasks
                         task={task}
@@ -96,7 +121,31 @@ function App({
                         createTaskFailure={createTaskFailure}
                         deleteTaskPending={deleteTaskPending}
                         deleteTaskFailure={deleteTaskFailure}
+                        getTaskPending={getTaskPending}
+                        getTaskFailure={getTaskFailure}
+                        updateTaskPending={updateTaskPending}
+                        updateTaskFailure={updateTaskFailure}
                     />
+                    {/*<Invites*/}
+                    {/*    invite={invite}*/}
+                    {/*    invites={invites}*/}
+                    {/*    handleLogoutRequest={() => dispatch(logout())}*/}
+                    {/*    handleCreateInvite={invite => dispatch(initiateCreateInvite(invite))}*/}
+                    {/*    handleUpdateInvite={invite => dispatch(initiateUpdateInvite(invite))}*/}
+                    {/*    handleDeleteInvite={invite => dispatch(initiateDeleteInvite(invite))}*/}
+                    {/*    handleGetInvite={invite => dispatch(initiateGetInvite(invite))}*/}
+                    {/*    handleGetInvites={invite => dispatch(initiateGetInvites(invite.invitesRange))}*/}
+                    {/*    getInvitesPending={getInvitesPending}*/}
+                    {/*    getInvitesFailure={getInvitesFailure}*/}
+                    {/*    createInvitePending={createInvitePending}*/}
+                    {/*    createInviteFailure={createInviteFailure}*/}
+                    {/*    deleteInvitePending={deleteInvitePending}*/}
+                    {/*    deleteInviteFailure={deleteInviteFailure}*/}
+                    {/*    getInvitePending={getInvitePending}*/}
+                    {/*    getInviteFailure={getInviteFailure}*/}
+                    {/*    updateInvitePending={updateInvitePending}*/}
+                    {/*    updateInviteFailure={updateInviteFailure}*/}
+                    {/*/>*/}
                 </> :
                 <Login
                     handleLoginRequest={(username, password, newUser) => dispatch(initiateLogin({
@@ -116,7 +165,7 @@ function App({
 }
 
 function mapStateToProps(state) {
-    return {...state.user, ...state.events, ...state.reminders, ...state.tasks}
+    return {...state.user, ...state.events, ...state.reminders, ...state.tasks, ...state.invites}
 }
 
 export default connect(mapStateToProps)(App);

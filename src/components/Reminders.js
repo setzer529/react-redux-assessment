@@ -12,20 +12,24 @@ import {
 import {useState, useEffect} from 'react'
 
 function Reminders({
-                    reminder,
-                    reminders,
-                    handleLogoutRequest,
-                    handleCreateReminder,
-                    handleUpdateReminder,
-                    handleDeleteReminder,
-                    handleGetReminder,
-                    handleGetReminders,
-                    getRemindersPending,
-                    getRemindersFailure,
-                    createReminderPending,
-                    createReminderFailure,
-                    deleteReminderFailure
-                }) {
+                       reminder,
+                       reminders,
+                       handleLogoutRequest,
+                       handleCreateReminder,
+                       handleUpdateReminder,
+                       handleDeleteReminder,
+                       handleGetReminder,
+                       handleGetReminders,
+                       getRemindersPending,
+                       getRemindersFailure,
+                       createReminderPending,
+                       createReminderFailure,
+                       deleteReminderFailure,
+                       getReminderPending,
+                       getReminderFailure,
+                       updateReminderPending,
+                       updateReminderFailure
+                   }) {
     const [showCreate, setShowCreate] = useState(false);
     const [showDetail, setShowDetail] = useState(false);
     const handleCloseCreate = () => setShowCreate(false);
@@ -42,9 +46,11 @@ function Reminders({
     const [reminderEndDate, setReminderEndDate] = useState('');
     const [reminderAttendees, setReminderAttendees] = useState([]);
     const [reminderLink, setReminderLink] = useState('');
-    const [showError, setShowError] = useState(false);
+    const [showGetRemindersError, setShowGetRemindersError] = useState(false);
     const [showCreateReminderError, setShowCreateReminderError] = useState(false);
     const [showDeleteReminderError, setShowDeleteReminderError] = useState(false);
+    const [showGetReminderError, setShowGetReminderError] = useState(false);
+    const [showUpdateReminderError, setShowUpdateReminderError] = useState(false);
     const [remindersRange, setRemindersRange] = useState(defaultDate());
     const [reminderUpdate, setReminderUpdate] = useState(false);
 
@@ -54,7 +60,9 @@ function Reminders({
             title: reminderTitle,
             timestamp: reminderStartDate
         }
-        if (event.event_id) {request.event_id = event.event_id}
+        if (event.event_id) {
+            request.event_id = event.event_id
+        }
         if (reminderUpdate) {
             request.id = reminderID
         }
@@ -85,7 +93,7 @@ function Reminders({
 
     useEffect(() => {
         if (getRemindersFailure) {
-            setShowError(true)
+            setShowGetRemindersError(true)
         }
         if (createReminderFailure) {
             setShowCreateReminderError(true)
@@ -93,8 +101,14 @@ function Reminders({
         if (deleteReminderFailure) {
             setShowDeleteReminderError(true)
         }
+        if (getReminderFailure) {
+            setShowGetReminderError(true)
+        }
+        if (updateReminderFailure) {
+            setShowUpdateReminderError(true)
+        }
 
-    }, [getRemindersFailure, createReminderFailure, deleteReminderFailure])
+    }, [getRemindersFailure, createReminderFailure, deleteReminderFailure, getReminderFailure, updateReminderFailure])
 
     useEffect(() => {
         setReminderID(reminder.id);
@@ -114,9 +128,11 @@ function Reminders({
     function handleStartChange(event) {
         setRemindersRange({...remindersRange, range_start: new Date(event.target.value)});
     }
+
     function handleEndChange(event) {
         setRemindersRange({...remindersRange, range_end: new Date(event.target.value)});
     }
+
     function handleFilter(event) {
         event.preventDefault();
         handleGetReminders({remindersRange})
@@ -219,15 +235,17 @@ function Reminders({
                             <Col xs={4} key={reminder.id}>
                                 <Card className={"my-3"}>
                                     <Card.Header>
-                                        <Button className={"m-2"} onClick={() => handleReminderDetail(reminder)}>Edit</Button>
-                                        <Button className={"m-2"} onClick={() => handleDeleteReminder(reminder)}>Delete</Button>
+                                        <Button className={"m-2"}
+                                                onClick={() => handleReminderDetail(reminder)}>Edit</Button>
+                                        <Button className={"m-2"}
+                                                onClick={() => handleDeleteReminder(reminder)}>Delete</Button>
                                     </Card.Header>
                                     <Card.Body>
-                                        <h4 >{reminder.title}</h4>
+                                        <h4>{reminder.title}</h4>
                                         <Card.Subtitle>
                                             <div>Time: {reminder.timestamp ?
-                                            reminder.timestamp.slice(0, 16).replace('T', ' ') :
-                                            'not set'}
+                                                reminder.timestamp.slice(0, 16).replace('T', ' ') :
+                                                'not set'}
                                             </div>
                                         </Card.Subtitle>
                                     </Card.Body>
@@ -240,7 +258,7 @@ function Reminders({
                 }
             </Row>
             <ToastContainer className={"p-3"} position={'bottom-end'}>
-                <Toast bg='danger' onClose={() => setShowError(false)} show={showError} delay={3000} autohide>
+                <Toast bg='danger' onClose={() => setShowGetRemindersError(false)} show={showGetRemindersError} delay={3000} autohide>
                     <Toast.Body bg='danger'><b>Unable to Retrieve Reminders</b></Toast.Body>
                 </Toast>
                 <Toast bg='danger' onClose={() => setShowCreateReminderError(false)} show={showCreateReminderError}
@@ -252,6 +270,12 @@ function Reminders({
                        delay={3000}
                        autohide>
                     <Toast.Body bg='danger'><b>Unable to Delete Reminder</b></Toast.Body>
+                </Toast>
+                <Toast bg='danger' onClose={() => setShowGetReminderError(false)} show={showGetReminderError} delay={3000} autohide>
+                    <Toast.Body bg='danger'><b>Unable to Retrieve Reminder</b></Toast.Body>
+                </Toast>
+                <Toast bg='danger' onClose={() => setShowUpdateReminderError(false)} show={showUpdateReminderError} delay={3000} autohide>
+                    <Toast.Body bg='danger'><b>Unable to Update Reminder</b></Toast.Body>
                 </Toast>
             </ToastContainer>
 
