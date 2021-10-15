@@ -202,9 +202,6 @@ function Reminders({
                 <Col xs='auto'>
                     <Button onClick={() => handleReminderCreate()}>Create Reminder</Button>
                 </Col>
-                <Col xs='auto'>
-                    <Button variant='outline-primary' onClick={handleLogoutRequest}>Logout</Button>
-                </Col>
             </Row>
             {/*//DATE FILTER*/}
             <Row className='bg-danger'>

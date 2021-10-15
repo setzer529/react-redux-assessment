@@ -8,6 +8,7 @@ import user from './modules/login_mod.js';
 import events from './modules/events_mod.js';
 import reminders from './modules/reminders_mod.js';
 import tasks from './modules/tasks_mod.js';
+import invites from './modules/invites_mod.js';
 import {Provider} from 'react-redux';
 import logger from 'redux-logger';
 
@@ -19,7 +20,7 @@ const asyncMiddleware = storeAPI => next => action  => {
 }
 
 const middlewareEnhancer = applyMiddleware(asyncMiddleware, logger)
-const rootReducer = combineReducers({user, events, reminders, tasks})
+const rootReducer = combineReducers({user, events, reminders, tasks, invites})
 const store =  createStore(rootReducer, middlewareEnhancer)
 
 ReactDOM.render(

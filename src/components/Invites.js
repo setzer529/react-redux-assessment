@@ -45,7 +45,7 @@ function Invites({
     const [inviteEndTime, setInviteEndTime] = useState('');
     const [inviteEndDate, setInviteEndDate] = useState('');
     const [inviteSteps, setInviteSteps] = useState([]);
-    const [inviteLink, setInviteLink] = useState('');
+    const [inviteUserID, setInviteUserID] = useState('');
     const [showGetInvitesError, setShowGetInvitesError] = useState(false);
     const [showCreateInviteError, setShowCreateInviteError] = useState(false);
     const [showDeleteInviteError, setShowDeleteInviteError] = useState(false);
@@ -55,20 +55,16 @@ function Invites({
     const [inviteUpdate, setInviteUpdate] = useState(false);
 
     function handleInviteSubmit(event) {
-        event.preventDefault()
         const request = {
             accepted: inviteAccepted,
         }
-        inviteUpdate ? request.id = inviteID : request.event_id = inviteEventID
-
+        if (inviteUpdate) {request.id = inviteID}
         console.log(request)
         inviteUpdate ? handleUpdateInvite(request) : handleCreateInvite(request);
-        inviteUpdate ? handleCloseDetail() : handleCloseCreate();
     }
 
     function handleInviteUpdate(update) {
         update.preventDefault()
-
     }
 
     function handleInviteCreate(input) {
@@ -86,6 +82,23 @@ function Invites({
         await handleGetInvite(input);
         handleShowDetail();
     }
+
+    function handleInviteAccept(invite) {
+        setInviteUpdate(true);
+        setInviteAccepted(true);
+        // setInviteID(invite.id);
+        // setInviteEventID(invite.event_id);
+        handleInviteSubmit()
+    }
+
+    function handleInviteReject(invite) {
+        setInviteUpdate(true);
+        setInviteAccepted(false);
+        // setInviteID(invite.id);
+        // setInviteEventID(invite.event_id);
+        handleInviteSubmit()
+    }
+
 
     useEffect(() => {
         if (getInvitesFailure) {
@@ -107,10 +120,11 @@ function Invites({
     }, [getInvitesFailure, createInviteFailure, deleteInviteFailure, getInviteFailure, updateInviteFailure])
 
     useEffect(() => {
+        console.log(invite)
         setInviteID(invite.id);
         setInviteEventID(invite.event_id);
         setInviteTitle(invite.title);
-        setInviteStartDate(invite.timestamp ? invite.timestamp.toLocaleString() : invite.timestamp);
+        setInviteAccepted(invite.accepted)
     }, [invite])
 
     function handleTitleChange(event) {
@@ -187,27 +201,8 @@ function Invites({
                     <Modal.Title>Edit Invite</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={handleInviteSubmit}>
-                        <Form.Group className="mb-2" controlId="createTitle">
-                            <Form.Label>Invite Title:</Form.Label>
-                            <Form.Control type="text" placeholder="Title" defaultValue={inviteTitle}
-                                          onChange={handleTitleChange}/>
-                        </Form.Group>
-                        <Form.Group className="mb-2" controlId="createStart">
-                            <Form.Label>Start Time: {inviteStartDate}</Form.Label>
-                            <Form.Control type="datetime-local" onChange={handleStartDateChange}/>
-                        </Form.Group>
-                        <Form.Group className="mb-2" controlId="createAttendees">
-                            <Form.Label>Steps: </Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Step 1, Step 2"
-                                onChange={handleStepsChange}/>
-                        </Form.Group>
-                        <Button variant="primary" type="submit">
-                            Update Invite
-                        </Button>
-                    </Form>
+                    {invite.accepted ? <Button className={"m-2"} onClick={() => handleInviteAccept()}>Accept</Button>:
+                        <Button className={"m-2 btn-danger "} onClick={() => handleInviteReject()}>Reject</Button>}
                 </Modal.Body>
             </Modal>
             {/*YOUR INVITES*/}
@@ -262,6 +257,7 @@ function Invites({
                                         </Card.Subtitle>
                                     </Card.Body>
                                     <Card.Footer>
+
                                     </Card.Footer>
                                 </Card>
                             </Col>)
@@ -295,6 +291,7 @@ function Invites({
 }
 
 export default Invites;
+
 //todo
 // <Card style={{width: '18rem'}}>
 //     <Card.Body>

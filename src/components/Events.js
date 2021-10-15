@@ -142,30 +142,39 @@ function Events({
     function handleTitleChange(event) {
         setEventTitle(event.target.value)
     }
+
     function handleDescriptionChange(event) {
         setEventDescription(event.target.value)
     }
+
     function handleLocationChange(event) {
         setEventLocation(event.target.value)
     }
+
     function handleLinkChange(event) {
         setEventLink(event.target.value)
     }
+
     function handleAttendeesChange(event) {
         setEventAttendees(event.target.value);
     }
+
     function handleStartDateChange(event) {
         setEventStartDate(event.target.value)
     }
+
     function handleEndDateChange(event) {
         setEventEndDate(event.target.value)
     }
+
     function handleStartChange(event) {
         setEventsRange({...eventsRange, range_start: new Date(event.target.value)});
     }
+
     function handleEndChange(event) {
         setEventsRange({...eventsRange, range_end: new Date(event.target.value)});
     }
+
     function handleFilter(event) {
         event.preventDefault();
         handleGetEvents({eventsRange})
@@ -330,25 +339,20 @@ function Events({
                                         <Button className={"m-2"} onClick={() => handleDeleteEvent(event)}>Delete</Button>
                                     </Card.Header>
                                     <Card.Body>
-                                        <h4 >{event.title}</h4>
+                                        <h4>{event.title}</h4>
                                         <Card.Subtitle>
                                             <div>Start Time: {event.start_timestamp ?
-                                            event.start_timestamp.slice(0, 16).replace('T', ' ') :
-                                            'not set'}
+                                                event.start_timestamp.slice(0, 16).replace('T', ' ') :
+                                                'not set'}
                                             </div>
                                             <div>
-                                            End Time: {event.end_timestamp ?
-                                            event.end_timestamp.slice(0, 16).replace('T', ' ') :
-                                            'not set'}
+                                                End Time: {event.end_timestamp ?
+                                                event.end_timestamp.slice(0, 16).replace('T', ' ') :
+                                                'not set'}
                                             </div>
                                         </Card.Subtitle>
-
                                     </Card.Body>
                                     <Card.Footer>
-                                        {event.attendees ? event.attendees.map(attendee => {
-                                            return (
-                                                <Badge className={'m-2'} key={`${event.id}:${attendee}`}>{attendee}</Badge>)
-                                        }) : <Badge className={'m-2'} key={event.id + 'none'}>No Attendees</Badge>}
                                     </Card.Footer>
                                 </Card>
                             </Col>)
@@ -358,7 +362,8 @@ function Events({
             </Row>
             {/*//ERROR ALERTS*/}
             <ToastContainer className={"p-3"} position={'bottom-end'}>
-                <Toast bg='danger' onClose={() => setShowGetEventsError(false)} show={showGetEventsError} delay={3000} autohide>
+                <Toast bg='danger' onClose={() => setShowGetEventsError(false)} show={showGetEventsError} delay={3000}
+                       autohide>
                     <Toast.Body bg='danger'><b>Unable to Retrieve Events</b></Toast.Body>
                 </Toast>
                 <Toast bg='danger' onClose={() => setShowCreateEventError(false)} show={showCreateEventError}
@@ -371,10 +376,12 @@ function Events({
                        autohide>
                     <Toast.Body bg='danger'><b>Unable to Delete Event</b></Toast.Body>
                 </Toast>
-                <Toast bg='danger' onClose={() => setShowGetEventError(false)} show={showGetEventError} delay={3000} autohide>
+                <Toast bg='danger' onClose={() => setShowGetEventError(false)} show={showGetEventError} delay={3000}
+                       autohide>
                     <Toast.Body bg='danger'><b>Unable to Retrieve Event</b></Toast.Body>
                 </Toast>
-                <Toast bg='danger' onClose={() => setShowUpdateEventError(false)} show={showUpdateEventError} delay={3000} autohide>
+                <Toast bg='danger' onClose={() => setShowUpdateEventError(false)} show={showUpdateEventError}
+                       delay={3000} autohide>
                     <Toast.Body bg='danger'><b>Unable to Update Event</b></Toast.Body>
                 </Toast>
             </ToastContainer>

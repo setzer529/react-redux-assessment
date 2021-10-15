@@ -213,15 +213,16 @@ function Tasks({
                         </Button>
                     </Form>
                 </Modal.Body>
+                <Modal.Footer>
+                    {task.step_list ? task.step_list.map(step => {return(<Badge>{step}</Badge>)}):
+                        <Badge>No Steps</Badge>}
+                </Modal.Footer>
             </Modal>
             {/*YOUR TASKS*/}
             <Row className='bg-danger'>
                 <Col><h1>TASKS</h1></Col>
                 <Col xs='auto'>
                     <Button onClick={() => handleTaskCreate()}>Create Task</Button>
-                </Col>
-                <Col xs='auto'>
-                    <Button variant='outline-primary' onClick={handleLogoutRequest}>Logout</Button>
                 </Col>
             </Row>
             {/*//DATE FILTER*/}
@@ -266,6 +267,8 @@ function Tasks({
                                         </Card.Subtitle>
                                     </Card.Body>
                                     <Card.Footer>
+                                        {task.step_list ? task.step_list.map(step => {return(<Badge>{step}</Badge>)}):
+                                            <Badge>No Steps</Badge>}
                                     </Card.Footer>
                                 </Card>
                             </Col>)
