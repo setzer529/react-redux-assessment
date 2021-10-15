@@ -2,14 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './theme.css';
-// import './index.css';
 import App from './App';
 import {createStore, applyMiddleware, combineReducers} from 'redux';
-// import user from './modules/user';
 import user from './modules/login_mod.js';
-// import memos from './modules/memos.js';
 import events from './modules/events_mod.js';
 import reminders from './modules/reminders_mod.js';
+import tasks from './modules/tasks_mod.js';
 import {Provider} from 'react-redux';
 import logger from 'redux-logger';
 
@@ -21,7 +19,7 @@ const asyncMiddleware = storeAPI => next => action  => {
 }
 
 const middlewareEnhancer = applyMiddleware(asyncMiddleware, logger)
-const rootReducer = combineReducers({user, events, reminders})
+const rootReducer = combineReducers({user, events, reminders, tasks})
 const store =  createStore(rootReducer, middlewareEnhancer)
 
 ReactDOM.render(

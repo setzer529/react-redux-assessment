@@ -4,6 +4,8 @@
 import {requestLogin, requestCreateUser} from '../Services/login_svc.js'
 import {initiateGetEvents} from './events_mod.js';
 import {initiateGetReminders} from './reminders_mod.js';
+import {initiateGetTasks} from './tasks_mod.js';
+
 
 
 //ACTIONS
@@ -133,6 +135,7 @@ export function initiateLogin(credentials) {
                     dispatch(loginSuccess(data.token))
                     dispatch(initiateGetEvents())
                     dispatch(initiateGetReminders())
+                    dispatch(initiateGetTasks())
 
                 }, () => dispatch(loginFailure()))
             }, () => dispatch(loginFailure()))

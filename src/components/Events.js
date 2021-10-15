@@ -51,7 +51,6 @@ function Events({
     function handleEventSubmit(event) {
         event.preventDefault()
         let attendees = eventAttendees[0] ? eventAttendees.split(',') : []
-
         const request = {
             title: eventTitle,
             description: eventDescription,

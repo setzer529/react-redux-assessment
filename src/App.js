@@ -3,6 +3,7 @@ import {Container, Row, Col} from 'react-bootstrap';
 import Login from './components/Login.js';
 import Events from './components/Events.js';
 import Reminders from './components/Reminders.js';
+import Tasks from './components/Tasks.js';
 import {connect} from 'react-redux';
 import {
     initiateLogin, logout
@@ -13,6 +14,9 @@ import {
 import {
     initiateCreateReminder, initiateUpdateReminder, initiateDeleteReminder, initiateGetReminder, initiateGetReminders
 } from './modules/reminders_mod.js';
+import {
+    initiateCreateTask, initiateUpdateTask, initiateDeleteTask, initiateGetTask, initiateGetTasks
+} from './modules/tasks_mod.js';
 
 
 function App({
@@ -21,12 +25,16 @@ function App({
                  createUserPending, createUserFailed, token,
                  event, events,
                  reminder, reminders,
+                 task, tasks,
                  getEventsPending, getEventsFailure,
                  createEventPending, createEventFailure,
                  deleteEventPending, deleteEventFailure,
                  getRemindersPending, getRemindersFailure,
                  createReminderPending, createReminderFailure,
-                 deleteReminderPending, deleteReminderFailure
+                 deleteReminderPending, deleteReminderFailure,
+                 getTasksPending, getTasksFailure,
+                 createTaskPending, createTaskFailure,
+                 deleteTaskPending, deleteTaskFailure
              }) {
 
     return (
@@ -73,6 +81,22 @@ function App({
                         deleteReminderPending={deleteReminderPending}
                         deleteReminderFailure={deleteReminderFailure}
                     />
+                    <Tasks
+                        task={task}
+                        tasks={tasks}
+                        handleLogoutRequest={() => dispatch(logout())}
+                        handleCreateTask={task => dispatch(initiateCreateTask(task))}
+                        handleUpdateTask={task => dispatch(initiateUpdateTask(task))}
+                        handleDeleteTask={task => dispatch(initiateDeleteTask(task))}
+                        handleGetTask={task => dispatch(initiateGetTask(task))}
+                        handleGetTasks={task => dispatch(initiateGetTasks(task.tasksRange))}
+                        getTasksPending={getTasksPending}
+                        getTasksFailure={getTasksFailure}
+                        createTaskPending={createTaskPending}
+                        createTaskFailure={createTaskFailure}
+                        deleteTaskPending={deleteTaskPending}
+                        deleteTaskFailure={deleteTaskFailure}
+                    />
                 </> :
                 <Login
                     handleLoginRequest={(username, password, newUser) => dispatch(initiateLogin({
@@ -92,7 +116,7 @@ function App({
 }
 
 function mapStateToProps(state) {
-    return {...state.user, ...state.events, ...state.reminders}
+    return {...state.user, ...state.events, ...state.reminders, ...state.tasks}
 }
 
 export default connect(mapStateToProps)(App);
